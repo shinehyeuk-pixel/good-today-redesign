@@ -190,7 +190,22 @@
   .section-head h2{font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-0.02em;margin-bottom:14px;}
   .section-head p{font-size:17px;color:var(--text-2);}
 
-  .about-band{background:var(--surface-2);}
+  .about-band{
+    background:linear-gradient(to bottom,
+      transparent 0,
+      var(--surface-2) 140px,
+      var(--surface-2) calc(100% - 140px),
+      transparent 100%);
+  }
+  @media (max-width:760px){
+    .about-band{
+      background:linear-gradient(to bottom,
+        transparent 0,
+        var(--surface-2) 80px,
+        var(--surface-2) calc(100% - 80px),
+        transparent 100%);
+    }
+  }
   .about-quote{
     font-size:clamp(22px,3.4vw,32px);font-weight:700;letter-spacing:-0.015em;
     max-width:680px;margin:0 auto 24px;text-align:center;
@@ -437,7 +452,7 @@
   </div>
 </section>
 
-<section class="about-band section-glow" id="program" style="--gx:15%;--gy:0%">
+<section class="about-band section-glow" id="program" style="--gx:15%;--gy:30%">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">강의 프로그램</div>
@@ -539,7 +554,7 @@
   </div>
 </section>
 
-<section class="about-band section-glow" id="profile" style="--gx:12%;--gy:0%">
+<section class="about-band section-glow" id="profile" style="--gx:12%;--gy:30%">
   <div class="wrap">
     <div class="profile-grid reveal">
       <div class="photo-frame"><div class="profile-photo"><img src="profile.jpg" alt="이영미 소장"></div></div>
