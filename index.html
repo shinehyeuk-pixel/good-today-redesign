@@ -31,11 +31,14 @@
   body{
     margin:0;
     background:
-      radial-gradient(1000px 560px at 12% 0%, var(--wash-1), transparent 60%),
-      radial-gradient(800px 520px at 92% 10%, var(--wash-2), transparent 55%),
-      radial-gradient(700px 500px at 85% 45%, var(--wash-1), transparent 60%),
-      radial-gradient(800px 540px at 8% 70%, var(--wash-2), transparent 55%),
-      radial-gradient(900px 560px at 90% 100%, var(--wash-1), transparent 60%),
+      radial-gradient(1100px 620px at 15% 0%, var(--wash-1), transparent 65%),
+      radial-gradient(900px 600px at 90% 14%, var(--wash-2), transparent 60%),
+      radial-gradient(850px 620px at 10% 30%, var(--wash-2), transparent 62%),
+      radial-gradient(900px 620px at 88% 46%, var(--wash-1), transparent 62%),
+      radial-gradient(850px 620px at 14% 62%, var(--wash-1), transparent 62%),
+      radial-gradient(900px 620px at 88% 78%, var(--wash-2), transparent 62%),
+      radial-gradient(1000px 620px at 15% 94%, var(--wash-1), transparent 62%),
+      radial-gradient(1000px 600px at 90% 110%, var(--wash-2), transparent 60%),
       var(--bg);
     color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Apple SD Gothic Neo","Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif;
@@ -176,12 +179,6 @@
   @media (prefers-reduced-motion: reduce){.btn-primary{animation:none;}}
 
   /* ---------- SECTION SHELL ---------- */
-  .section-glow{position:relative;}
-  .section-glow::before{
-    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(640px circle at var(--gx,50%) var(--gy,0%), var(--wash-1), transparent 70%);
-  }
-  .section-glow > .wrap{position:relative;z-index:1;}
   section{padding:104px 24px;}
   @media (max-width:760px){section{padding:64px 24px;}}
   .section-head{text-align:center;max-width:640px;margin:0 auto 56px;}
@@ -397,7 +394,7 @@
   <a class="btn-primary" href="#recommend">우리 조직 맞춤 강의 찾기 →</a>
 </header>
 
-<section class="about-band reveal section-glow" id="about" style="--gx:18%;--gy:-10%">
+<section class="about-band reveal" id="about">
   <div class="wrap">
     <div class="kicker" style="text-align:center;">연구소 소개</div>
     <p class="about-quote">좋은 소통이 좋은 오늘을 만듭니다</p>
@@ -405,7 +402,7 @@
   </div>
 </section>
 
-<section id="fields" class="section-glow" style="--gx:85%;--gy:-5%">
+<section id="fields">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">주요 교육 분야</div>
@@ -436,7 +433,7 @@
   </div>
 </section>
 
-<section class="about-band section-glow" id="program" style="--gx:15%;--gy:30%">
+<section class="about-band" id="program">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">강의 프로그램</div>
@@ -488,7 +485,7 @@
   </div>
 </section>
 
-<section id="recommend" class="section-glow" style="--gx:82%;--gy:10%">
+<section id="recommend">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">맞춤 강의 추천</div>
@@ -538,7 +535,7 @@
   </div>
 </section>
 
-<section class="about-band section-glow" id="profile" style="--gx:12%;--gy:30%">
+<section class="about-band" id="profile">
   <div class="wrap">
     <div class="profile-grid reveal">
       <div class="photo-frame"><div class="profile-photo"><img src="profile.jpg" alt="이영미 소장"></div></div>
@@ -562,7 +559,7 @@
   </div>
 </section>
 
-<section id="clients" class="section-glow" style="--gx:88%;--gy:-5%">
+<section id="clients">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">주요 강의처</div>
