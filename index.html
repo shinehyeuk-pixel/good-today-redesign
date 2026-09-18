@@ -10,52 +10,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fbfbfd;
-    --surface:#ffffff;
-    --surface-2:#f5f5f7;
-    --text:#1d1d1f;
-    --text-2:#6e6e73;
-    --border:rgba(0,0,0,0.08);
-    --accent:#0a9c93;
-    --accent-strong:#067b73;
-    --accent-soft:#e3f5f3;
-    --shadow:0 20px 50px rgba(0,0,0,0.09);
-    --nav-bg:rgba(251,251,253,0.75);
+    --bg:#07090a;
+    --surface:#131615;
+    --surface-2:#0c0f0e;
+    --text:#f4f6f5;
+    --text-2:#9aa3a0;
+    --border:rgba(255,255,255,0.09);
+    --accent:#2fd6c7;
+    --accent-strong:#6fefe2;
+    --accent-soft:rgba(47,214,199,0.14);
+    --shadow:0 24px 60px rgba(0,0,0,0.6);
+    --nav-bg:rgba(7,9,10,0.72);
     --ease:cubic-bezier(.22,1,.36,1);
-    --wash-1:rgba(10,156,147,0.08);
-    --wash-2:rgba(10,156,147,0.05);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#000000;
-      --surface:#1c1c1e;
-      --surface-2:#131315;
-      --text:#f5f5f7;
-      --text-2:#a1a1a6;
-      --border:rgba(255,255,255,0.13);
-      --accent:#3fd9ca;
-      --accent-strong:#68e8db;
-      --accent-soft:rgba(63,217,202,0.14);
-      --shadow:0 20px 50px rgba(0,0,0,0.55);
-      --nav-bg:rgba(0,0,0,0.6);
-      --wash-1:rgba(63,217,202,0.12);
-      --wash-2:rgba(63,217,202,0.07);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#000000;
-    --surface:#1c1c1e;
-    --surface-2:#131315;
-    --text:#f5f5f7;
-    --text-2:#a1a1a6;
-    --border:rgba(255,255,255,0.13);
-    --accent:#3fd9ca;
-    --accent-strong:#68e8db;
-    --accent-soft:rgba(63,217,202,0.14);
-    --shadow:0 20px 50px rgba(0,0,0,0.55);
-    --nav-bg:rgba(0,0,0,0.6);
-    --wash-1:rgba(63,217,202,0.12);
-    --wash-2:rgba(63,217,202,0.07);
+    --wash-1:rgba(47,214,199,0.13);
+    --wash-2:rgba(47,214,199,0.08);
   }
 
   html{scroll-behavior:smooth;}
@@ -63,8 +31,11 @@
   body{
     margin:0;
     background:
-      radial-gradient(900px 520px at 10% -10%, var(--wash-1), transparent 60%),
-      radial-gradient(700px 480px at 100% 12%, var(--wash-2), transparent 55%),
+      radial-gradient(1000px 560px at 12% 0%, var(--wash-1), transparent 60%),
+      radial-gradient(800px 520px at 92% 10%, var(--wash-2), transparent 55%),
+      radial-gradient(700px 500px at 85% 45%, var(--wash-1), transparent 60%),
+      radial-gradient(800px 540px at 8% 70%, var(--wash-2), transparent 55%),
+      radial-gradient(900px 560px at 90% 100%, var(--wash-1), transparent 60%),
       var(--bg);
     color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Apple SD Gothic Neo","Pretendard Variable",Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif;
@@ -125,23 +96,50 @@
   }
 
   /* ---------- HERO ---------- */
-  .hero{padding:96px 24px 88px;text-align:center;}
-  .hero{position:relative;overflow:hidden;}
+  .hero{
+    padding:120px 24px 80px;text-align:center;
+    min-height:100vh;min-height:calc(100svh - 52px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;background:#000;
+  }
   .hero::before{
-    content:"";position:absolute;top:-180px;left:50%;
-    transform:translateX(-58%) translateY(calc(var(--sy,0) * 0.15px));
-    width:560px;height:560px;border-radius:50%;
+    content:"";position:absolute;top:-160px;left:38%;
+    width:600px;height:600px;border-radius:50%;
     background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
-    opacity:.2;filter:blur(70px);pointer-events:none;z-index:0;
+    opacity:.3;filter:blur(90px);pointer-events:none;z-index:0;
+    animation:drift-a 16s ease-in-out infinite;
   }
   .hero::after{
-    content:"";position:absolute;bottom:-220px;right:-100px;
-    transform:translateY(calc(var(--sy,0) * -0.1px));
-    width:440px;height:440px;border-radius:50%;
+    content:"";position:absolute;bottom:-220px;right:8%;
+    width:480px;height:480px;border-radius:50%;
     background:radial-gradient(circle,var(--accent-strong) 0%,transparent 70%);
-    opacity:.16;filter:blur(80px);pointer-events:none;z-index:0;
+    opacity:.22;filter:blur(90px);pointer-events:none;z-index:0;
+    animation:drift-b 20s ease-in-out infinite;
+  }
+  .hero-glow-3{
+    content:"";position:absolute;top:30%;left:70%;
+    width:360px;height:360px;border-radius:50%;
+    background:radial-gradient(circle,#ffffff 0%,transparent 70%);
+    opacity:.05;filter:blur(90px);pointer-events:none;z-index:0;
+    animation:drift-c 24s ease-in-out infinite;
+  }
+  @keyframes drift-a{
+    0%,100%{transform:translate(-50%,0) scale(1);}
+    50%{transform:translate(-38%,8%) scale(1.18);}
+  }
+  @keyframes drift-b{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-10%,-10%) scale(1.22);}
+  }
+  @keyframes drift-c{
+    0%,100%{transform:translate(0,0) scale(1);opacity:.05;}
+    50%{transform:translate(-14%,10%) scale(1.3);opacity:.09;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero::before,.hero::after,.hero-glow-3{animation:none;}
   }
   .hero > *{position:relative;z-index:1;}
+  .hero > .hero-glow-3{position:absolute;z-index:0;}
   .eyebrow{
     display:inline-block;font-size:13px;font-weight:600;color:var(--accent-strong);
     background:var(--accent-soft);padding:6px 14px;border-radius:980px;margin-bottom:22px;
@@ -167,17 +165,23 @@
     display:inline-flex;align-items:center;gap:8px;
     background:var(--accent);color:#fff;font-weight:600;font-size:16px;
     padding:14px 30px;border-radius:980px;border:none;cursor:pointer;
-    box-shadow:0 10px 24px rgba(10,156,147,0.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease);
+    box-shadow:0 10px 24px rgba(47,214,199,0.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease);
     animation:pulse-glow 2.8s ease-in-out infinite;
   }
-  .btn-primary:hover{background:var(--accent-strong);transform:translateY(-3px) scale(1.03);box-shadow:0 18px 36px rgba(10,156,147,0.4);animation-play-state:paused;}
+  .btn-primary:hover{background:var(--accent-strong);transform:translateY(-3px) scale(1.03);box-shadow:0 18px 36px rgba(47,214,199,0.4);animation-play-state:paused;}
   @keyframes pulse-glow{
-    0%,100%{box-shadow:0 10px 24px rgba(10,156,147,0.28);}
-    50%{box-shadow:0 10px 32px rgba(10,156,147,0.48);}
+    0%,100%{box-shadow:0 10px 24px rgba(47,214,199,0.28);}
+    50%{box-shadow:0 10px 32px rgba(47,214,199,0.48);}
   }
   @media (prefers-reduced-motion: reduce){.btn-primary{animation:none;}}
 
   /* ---------- SECTION SHELL ---------- */
+  .section-glow{position:relative;}
+  .section-glow::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(640px circle at var(--gx,50%) var(--gy,0%), var(--wash-1), transparent 70%);
+  }
+  .section-glow > .wrap{position:relative;z-index:1;}
   section{padding:104px 24px;}
   @media (max-width:760px){section{padding:64px 24px;}}
   .section-head{text-align:center;max-width:640px;margin:0 auto 56px;}
@@ -220,11 +224,19 @@
   /* ---------- PROGRAM LIST ---------- */
   .program-list{display:flex;flex-direction:column;gap:14px;}
   .program-row{
+    position:relative;overflow:hidden;isolation:isolate;
     display:grid;grid-template-columns:140px 1fr 1.3fr;gap:24px;align-items:center;
-    background:var(--surface);border:1px solid var(--border);border-left:3px solid transparent;border-radius:18px;
-    padding:22px 26px;transition:border-color .4s var(--ease),box-shadow .4s var(--ease),transform .4s var(--ease);
+    background:var(--surface);border:1px solid var(--border);border-radius:18px;
+    padding:22px 26px;transition:box-shadow .4s var(--ease),transform .4s var(--ease),border-color .4s var(--ease);
   }
-  .program-row:hover{border-color:transparent;border-left-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-5px) translateX(4px) scale(1.01);}
+  .program-row::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.08), transparent 65%);
+    opacity:0;transition:opacity .5s var(--ease);
+  }
+  .program-row > *{position:relative;z-index:1;}
+  .program-row:hover{border-color:var(--border);box-shadow:var(--shadow);transform:translateY(-5px) scale(1.012);}
+  .program-row:hover::before{opacity:1;}
   @media (max-width:760px){
     .program-row{grid-template-columns:1fr;gap:10px;padding:20px;}
   }
@@ -330,7 +342,7 @@
   .contact-band p{color:#a1a1a6;font-size:16.5px;margin-bottom:36px;}
   .contact-links{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;font-size:17px;font-weight:600;}
   .contact-links a{color:#f5f5f7;transition:color .2s;}
-  .contact-links a:hover{color:#3fd9ca;}
+  .contact-links a:hover{color:#6fefe2;}
   .btn-light{
     display:inline-block;background:#f5f5f7;color:#0a0a0a;font-weight:700;font-size:15.5px;
     padding:14px 30px;border-radius:980px;transition:transform .2s,background .2s;
@@ -375,6 +387,7 @@
 </nav>
 
 <header class="hero" id="home">
+  <div class="hero-glow-3"></div>
   <span class="eyebrow">좋은오늘 소통연구소</span>
   <h1>소통이 달라지면<br>오늘이 달라집니다</h1>
   <p class="sub">사람과 조직의 변화를 만드는 실전 커뮤니케이션 파트너</p>
@@ -385,7 +398,7 @@
   <a class="btn-primary" href="#recommend">우리 조직 맞춤 강의 찾기 →</a>
 </header>
 
-<section class="about-band reveal" id="about">
+<section class="about-band reveal section-glow" id="about" style="--gx:18%;--gy:-10%">
   <div class="wrap">
     <div class="kicker" style="text-align:center;">연구소 소개</div>
     <p class="about-quote">좋은 소통이 좋은 오늘을 만듭니다</p>
@@ -393,7 +406,7 @@
   </div>
 </section>
 
-<section id="fields">
+<section id="fields" class="section-glow" style="--gx:85%;--gy:-5%">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">주요 교육 분야</div>
@@ -424,7 +437,7 @@
   </div>
 </section>
 
-<section class="about-band" id="program">
+<section class="about-band section-glow" id="program" style="--gx:15%;--gy:0%">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">강의 프로그램</div>
@@ -476,7 +489,7 @@
   </div>
 </section>
 
-<section id="recommend">
+<section id="recommend" class="section-glow" style="--gx:82%;--gy:10%">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">맞춤 강의 추천</div>
@@ -526,7 +539,7 @@
   </div>
 </section>
 
-<section class="about-band" id="profile">
+<section class="about-band section-glow" id="profile" style="--gx:12%;--gy:0%">
   <div class="wrap">
     <div class="profile-grid reveal">
       <div class="photo-frame"><div class="profile-photo"><img src="profile.jpg" alt="이영미 소장"></div></div>
@@ -550,7 +563,7 @@
   </div>
 </section>
 
-<section id="clients">
+<section id="clients" class="section-glow" style="--gx:88%;--gy:-5%">
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">주요 강의처</div>
@@ -598,7 +611,7 @@
 
 <section id="inquiry" style="padding-top:0;">
   <div class="contact-band reveal">
-    <div class="kicker" style="color:#3fd9ca;">교육 문의</div>
+    <div class="kicker" style="color:#6fefe2;">교육 문의</div>
     <h2>기관과 참여자의 특성에 맞는<br>교육을 함께 설계합니다</h2>
     <p>전화 또는 이메일로 편하게 문의해 주세요.</p>
     <div class="contact-links">
@@ -644,6 +657,14 @@
         setTimeout(function(){ recBtn.textContent = '강의 추천받기'; }, 2200);
       });
     }
+
+    document.querySelectorAll('.program-row').forEach(function(row){
+      row.addEventListener('mousemove', function(e){
+        var rect = row.getBoundingClientRect();
+        row.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+        row.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+      });
+    });
 
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
