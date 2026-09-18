@@ -272,6 +272,63 @@
   }
   .form-submit:hover{background:var(--accent-strong);transform:translateY(-3px) scale(1.015);}
   .form-submit:active{transform:translateY(-1px) scale(.99);}
+  .form-submit:disabled{cursor:default;transform:none;}
+  .form-submit{display:flex;align-items:center;justify-content:center;gap:9px;}
+  .btn-spinner{
+    display:none;width:16px;height:16px;border-radius:50%;flex:none;
+    border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+    animation:btn-spin .7s linear infinite;
+  }
+  .btn-check{display:none;flex:none;}
+  .form-submit.is-loading .btn-spinner{display:inline-block;}
+  .form-submit.is-success .btn-check{display:inline-block;}
+  @keyframes btn-spin{to{transform:rotate(360deg);}}
+
+  .recommend-error{
+    color:#c0392b;font-size:13.5px;font-weight:600;text-align:center;
+    margin-top:14px;opacity:0;transform:translateY(-4px);
+    transition:opacity .3s var(--ease),transform .3s var(--ease);
+  }
+  .recommend-error.show{opacity:1;transform:translateY(0);}
+
+  .recommend-result{
+    margin-top:26px;padding:28px;border-radius:20px;
+    background:var(--surface-2);border:1px solid var(--border);
+    opacity:0;transform:scale(.92);transform-origin:top center;
+    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .recommend-result.show{opacity:1;transform:scale(1);}
+  .result-top{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+  .result-icon{
+    flex:none;width:52px;height:52px;border-radius:16px;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .result-icon svg{width:26px;height:26px;}
+  .result-eyebrow{display:block;font-size:12px;font-weight:700;color:var(--accent-strong);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;}
+  .result-title{font-size:20px;font-weight:800;letter-spacing:-.01em;}
+  .result-desc{color:var(--text-2);font-size:15px;line-height:1.7;margin-bottom:16px;}
+  .result-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .result-chip{
+    font-size:12.5px;font-weight:700;color:var(--accent-strong);
+    background:var(--accent-soft);padding:6px 12px;border-radius:980px;
+  }
+  .result-contact{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+    padding-top:18px;border-top:1px solid var(--border);
+  }
+  .result-contact-info{font-size:13.5px;color:var(--text-2);display:flex;flex-direction:column;gap:2px;}
+  .result-cta{
+    display:inline-flex;align-items:center;gap:6px;flex:none;
+    background:var(--accent);color:#fff;font-weight:700;font-size:14.5px;
+    padding:12px 22px;border-radius:980px;white-space:nowrap;
+    transition:background .3s var(--ease),transform .3s var(--ease);
+  }
+  .result-cta:hover{background:var(--accent-strong);transform:translateY(-2px);}
+  @media (max-width:500px){
+    .result-contact{flex-direction:column;align-items:flex-start;}
+    .result-cta{width:100%;justify-content:center;}
+  }
 
   /* ---------- INSTRUCTOR ---------- */
   .profile-grid{display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:center;max-width:940px;margin:0 auto;}
@@ -539,7 +596,34 @@
           </select>
         </div>
       </div>
-      <button class="form-submit" id="recommendBtn">강의 추천받기</button>
+      <button class="form-submit" id="recommendBtn" type="button">
+        <span class="btn-spinner" aria-hidden="true"></span>
+        <svg class="btn-check" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4.5 4.5L19 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="recommendBtnText">강의 추천받기</span>
+      </button>
+      <p class="recommend-error" id="recommendError">교육 대상, 교육 분야, 교육 목표를 모두 선택해 주세요.</p>
+
+      <div class="recommend-result" id="recommendResult">
+        <div class="result-top">
+          <div class="result-icon" id="resultIcon"></div>
+          <div>
+            <span class="result-eyebrow">추천 프로그램</span>
+            <div class="result-title" id="resultTitle"></div>
+          </div>
+        </div>
+        <p class="result-desc" id="resultDesc"></p>
+        <div class="result-chips">
+          <span class="result-chip" id="resultChipTarget"></span>
+          <span class="result-chip" id="resultChipGoal"></span>
+        </div>
+        <div class="result-contact">
+          <div class="result-contact-info">
+            <span>전화 010-7596-6266</span>
+            <span>이메일 woal99@naver.com</span>
+          </div>
+          <a class="result-cta" id="resultCta" href="mailto:woal99@naver.com">이대로 교육 문의하기 →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -709,17 +793,112 @@
     }
     var recBtn = document.getElementById('recommendBtn');
     if(recBtn){
+      var RECOMMEND_DATA = {
+        communication:{
+          title:'조직 소통과 갈등관리',
+          desc:'직장 내 관계관리, 갈등 예방, 공감 대화와 피드백 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H10l-4.5 3.5V16H6.5A2.5 2.5 0 0 1 4 13.5v-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="10" r="0.9" fill="currentColor"/><circle cx="12" cy="10" r="0.9" fill="currentColor"/><circle cx="15" cy="10" r="0.9" fill="currentColor"/></svg>'
+        },
+        leadership:{
+          title:'신뢰 기반 리더십과 팀빌딩',
+          desc:'리더의 소통, 구성원 동기부여, 협업과 팀워크 강화 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M14.5 9.5 13 13l-3.5 1.5L11 11l3.5-1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'
+        },
+        cs:{
+          title:'CS 커뮤니케이션과 민원응대',
+          desc:'고객심리 이해, 불만 VOC 대응, 현장 대화법 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="4" height="6" rx="1.6" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="13" width="4" height="6" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M19 19v.5A2.5 2.5 0 0 1 16.5 22H14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+        },
+        stress:{
+          title:'스트레스 회복탄력성',
+          desc:'스트레스 이해, 감정관리, 회복과 자기관리 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.6-10-9C.7 8 2 4.5 5.3 4.5c2 0 3.4 1.1 4.4 2.6.9-1.5 2.4-2.6 4.4-2.6 3.3 0 4.6 3.5 2.9 7-2.5 4.4-10 9-10 9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h3l1.5-3 2 5 1.5-3h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        },
+        ai:{
+          title:'생성형 AI 실무 활용',
+          desc:'프롬프트 작성, 문서 작성, 요약과 업무 효율화 중심 실습 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M19 15.5l.7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7.7-2.3Z" fill="currentColor"/></svg>'
+        },
+        family:{
+          title:'가족 소통의 기술',
+          desc:'부모 자녀 관계, 공감 대화, 갈등 조절 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 20v-1.2A4.8 4.8 0 0 1 8.3 14h1.4a4.8 4.8 0 0 1 4.7 3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14.8 20v-.8a4 4 0 0 1 4-4h.4a4 4 0 0 1 3.9 3.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+        },
+        speech:{
+          title:'실전 스피치와 발표',
+          desc:'전달력, 내용 구조화, 자신감 있는 발표와 실습 중심 교육으로 구성할 수 있습니다.',
+          icon:'<svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3.5" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 17.5V21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 21h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+        }
+      };
+
+      var targetSelect = document.getElementById('target');
+      var topicSelect = document.getElementById('area');
+      var goalSelect = document.getElementById('goal');
+      var btnText = document.getElementById('recommendBtnText');
+      var errorEl = document.getElementById('recommendError');
+      var resultEl = document.getElementById('recommendResult');
+      var errorTimer = null;
+      var busy = false;
+
+      function selectedText(sel){
+        return sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+      }
+
       recBtn.addEventListener('click', function(){
-        var t = document.getElementById('target').value;
-        var a = document.getElementById('area').value;
-        var g = document.getElementById('goal').value;
-        if(t === '선택' || a === '선택' || g === '선택'){
-          recBtn.textContent = '세 항목을 모두 선택해 주세요';
-          setTimeout(function(){ recBtn.textContent = '강의 추천받기'; }, 1800);
+        if(busy) return;
+        var t = targetSelect.value;
+        var topicKey = topicSelect.value;
+        var g = goalSelect.value;
+
+        if(t === '선택' || topicKey === '선택' || g === '선택'){
+          resultEl.classList.remove('show');
+          errorEl.classList.add('show');
+          clearTimeout(errorTimer);
+          errorTimer = setTimeout(function(){ errorEl.classList.remove('show'); }, 2600);
           return;
         }
-        recBtn.textContent = '맞춤 강의를 정리했어요 — 곧 연락드릴게요';
-        setTimeout(function(){ recBtn.textContent = '강의 추천받기'; }, 2200);
+        errorEl.classList.remove('show');
+        resultEl.classList.remove('show');
+
+        var topicLabel = selectedText(topicSelect);
+        var data = RECOMMEND_DATA[topicKey];
+
+        busy = true;
+        recBtn.disabled = true;
+        recBtn.classList.add('is-loading');
+        btnText.textContent = '최적 강의를 찾는 중이에요...';
+
+        setTimeout(function(){
+          recBtn.classList.remove('is-loading');
+          recBtn.classList.add('is-success');
+          btnText.textContent = '강의를 찾았어요!';
+
+          setTimeout(function(){
+            recBtn.classList.remove('is-success');
+            recBtn.disabled = false;
+            btnText.textContent = '강의 추천받기';
+            busy = false;
+
+            document.getElementById('resultIcon').innerHTML = data.icon;
+            document.getElementById('resultTitle').textContent = data.title;
+            document.getElementById('resultDesc').textContent = t + ' 대상 · ' + g + ' 목표에 맞춰 ' + data.desc;
+            document.getElementById('resultChipTarget').textContent = t;
+            document.getElementById('resultChipGoal').textContent = g;
+
+            var subject = encodeURIComponent('[교육 문의] ' + data.title);
+            var body = encodeURIComponent(
+              '안녕하세요, 아래 내용으로 교육을 문의드립니다.\n\n' +
+              '교육 대상: ' + t + '\n' +
+              '교육 분야: ' + topicLabel + '\n' +
+              '교육 목표: ' + g + '\n\n'
+            );
+            document.getElementById('resultCta').href = 'mailto:woal99@naver.com?subject=' + subject + '&body=' + body;
+
+            requestAnimationFrame(function(){
+              resultEl.classList.add('show');
+            });
+          }, 700);
+        }, 1300);
       });
     }
 
