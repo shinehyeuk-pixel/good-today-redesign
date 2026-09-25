@@ -102,9 +102,9 @@
   /* ---------- HERO ---------- */
   .hero{
     --H:max(600px, calc(100svh - 52px));
-    --ph:min(calc(var(--H) * .84), 820px);
+    --ph:min(calc(var(--H) * .8), 800px);
     --pw:calc(var(--ph) * .6805);
-    --hw:clamp(44px, min(6.4vw, 10.5vh), 104px);
+    --hw:clamp(46px, min(calc((50vw - var(--pw) * .36 - 36px) / 4.75), 14.5vh), 160px);
     min-height:var(--H);
     position:relative;overflow:hidden;
   }
@@ -166,33 +166,22 @@
   /* big headline hugging the portrait */
   .hero-title{
     position:absolute;inset:0;margin:0;z-index:1;pointer-events:none;
-    font-size:var(--hw);font-weight:800;letter-spacing:-.045em;line-height:1.04;
+    font-size:var(--hw);font-weight:900;letter-spacing:-.05em;line-height:1.02;
   }
   .hw{position:absolute;display:block;white-space:nowrap;}
   .hw-t{
     display:block;padding-bottom:.06em;
-    background:linear-gradient(180deg,var(--text) 50%,#52625f);
+    background:linear-gradient(180deg,#0e1a18 45%,#3f4f4c);
     -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 14px 30px rgba(18,32,29,.13));
   }
-  .hw-1{right:calc(50% + var(--pw) * .31);top:calc(var(--H) - var(--ph) * .92);text-align:right;}
-  .hw-2{left:calc(50% + var(--pw) * .40);top:calc(var(--H) - var(--ph) * .70);text-align:left;}
+  .hw-1{right:calc(50% + var(--pw) * .30);top:calc(var(--H) - var(--ph));text-align:right;}
+  .hw-2{left:calc(50% + var(--pw) * .36);top:calc(var(--H) - var(--ph) * .82);text-align:left;}
   .hero-kicker{
-    display:inline-block;font-size:.36em;font-weight:800;letter-spacing:-.02em;line-height:1.2;
-    margin-bottom:.32em;
+    display:inline-block;font-size:.3em;font-weight:800;letter-spacing:-.02em;line-height:1.2;
+    margin-bottom:.3em;
     background:linear-gradient(90deg,var(--accent-strong),#3cc5b8);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-
-  /* faint oversized logo watermark behind the portrait */
-  .hero-ghost{
-    position:absolute;left:50%;top:calc(var(--H) - var(--ph) * .42);z-index:0;
-    translate:-50% 0;
-    width:min(88vw,1240px);aspect-ratio:897/145;
-    background:linear-gradient(180deg,rgba(10,156,147,.2),rgba(10,156,147,.05) 90%);
-    -webkit-mask:url(logo.png) center/contain no-repeat;
-    mask:url(logo.png) center/contain no-repeat;
-    pointer-events:none;
-    animation:fade-in 2.2s ease .5s both;
   }
 
   /* portrait */
@@ -217,7 +206,7 @@
   .hero-chip{
     position:absolute;z-index:3;
     right:calc(50% + var(--pw) * .31);
-    top:calc(var(--H) - var(--ph) * .92 - 50px);
+    top:calc(var(--H) - var(--ph) - 52px);
     display:inline-flex;align-items:center;gap:10px;
     padding:8px 16px 8px 13px;border-radius:980px;
     background:rgba(255,255,255,.78);
@@ -278,7 +267,6 @@
   /* pointer parallax (vars set by JS) */
   .hw-1,.hero-chip{translate:calc(var(--px,0) * -16px) calc(var(--py,0) * -8px);}
   .hw-2{translate:calc(var(--px,0) * -22px) calc(var(--py,0) * -10px);}
-  .hero-ghost{translate:calc(-50% + var(--px,0) * -30px) 0;}
   .hero-person-inner{translate:calc(var(--px,0) * 10px) calc(var(--py,0) * 5px);}
 
   /* entrance */
@@ -302,9 +290,8 @@
   }
   @keyframes fade-in{from{opacity:0;}to{opacity:1;}}
   @media (max-width:400px){.hero-chip .chip-extra{display:none;}}
-  @media (max-width:600px){.hero-ghost{display:none;}}
   @media (prefers-reduced-motion: reduce){
-    .hero::before,.hero::after,.hero-glow-3,.rb,.hero-ribbons,.hero-ghost,
+    .hero::before,.hero::after,.hero-glow-3,.rb,.hero-ribbons,
     .hero-person-inner,.hw-1,.hw-2,.hero-chip,.hero-bar,.hero-cta{animation:none;}
   }
 
@@ -312,14 +299,13 @@
   @media (max-width:900px), (orientation:portrait) and (max-width:1100px){
     .hero{
       --ph:min(calc(var(--H) * .7), 760px);
-      --hw:clamp(32px, 9.4vw, 60px);
+      --hw:clamp(32px, 10.2vw, 66px);
     }
     .hero-title{inset:auto 0 auto 0;top:calc(clamp(22px,4svh,44px) + 52px);text-align:center;line-height:1.14;}
     .hw{position:static;}
     .hw-1,.hw-2{text-align:center;}
     .hw br{display:none;}
     .hero-kicker{font-size:.46em;margin-bottom:.45em;}
-    .hero-ghost{top:auto;bottom:calc(var(--ph) * .36);width:94vw;}
     .hero-chip{
       right:auto;left:50%;translate:-50% 0;
       top:clamp(22px,4svh,44px);font-size:12.5px;
@@ -622,7 +608,6 @@
     <span class="rb rb-1"></span><span class="rb rb-2"></span><span class="rb rb-3"></span><span class="rb rb-4"></span>
   </div>
   <div class="hero-stage">
-    <span class="hero-ghost" aria-hidden="true"></span>
     <p class="hero-chip"><strong>국내 1호 소통컨설턴트</strong><span class="chip-extra">· 강의 경력 15년</span></p>
     <h1 class="hero-title">
       <span class="hw hw-1"><span class="hero-kicker">이영미 소장과 함께,</span><span class="hw-t">소통이<br> 달라지면</span></span>
